@@ -1,30 +1,29 @@
-Team Members - Derrick Li and Jake Hosking
+# Security Camera with Facial Recognition
 
-Github Repository link: https://github.com/lishouyi1024/usc-ee250-fall2022-project-jake-derrick/tree/main
+## Overview
 
-How to Execute:
-        The project requires that you use the Raspberry Pi Camera Module v2 in order
-    to take the photos, so this cannot be easily run on one's own Raspberry Pi
-    without it. 
+This project involves creating a wireless security camera system with facial recognition capabilities. The system can be accessed and controlled via a TCP connection to capture photographs, analyze them for the presence of individuals, draw bounding boxes around faces, and identify specific individuals from a predefined set of images.
 
-        The program consists of two edges, the Raspberry Pi running tcp_server.py 
-    and a laptop or other linux device running tcp_client.py, face_detect.py, 
-    face_recog.py, and handling the storage of the photos. You must ssh into 
-    the RPi with copied ID (ssh-copy-id pi@"") in order for the scp file transfer\
-    to operate correctly, and then run tcp_server.py. The laptop or linux device would 
-    then run tcp_client.py, and follow the prompts to take the photos and 
-    analysis them.
+## System Architecture
 
-External Libraries:
-    OpenCV/cv2 - A python library for computer vision that we used 
-                 to find faces in the images, draw boxes around them
-                 and compare them to our stock photos to catagorize who
-                 is in the photo.
-    
-    Pickle - A python library for binary encoding of data that we used to
-             number the images in their respective image directories (acts
-             as a sudo global variable across all instances of face_recog.py).
+The project consists of two main components:
+1. **Raspberry Pi with Camera Module v2**: Acts as the TCP server, capturing images as per commands received.
+2. **External Linux Device (Client)**: Runs a TCP client application that sends commands to the Raspberry Pi, receives images via SCP file transfer, and processes them using OpenCV for facial recognition.
 
-    PiCamera - A python library that we used to take photos on our Pi 
-               Camera Module v2.
-    
+## Components and Implementation
+
+- **Raspberry Pi Camera Module v2**: Used for capturing images.
+- **TCP Communication**: Facilitates command communication between the Raspberry Pi and the external Linux device.
+- **SCP File Transfer**: Allows the transfer of captured images from the Raspberry Pi to the client for processing.
+- **OpenCV**: A robust Python library used for facial recognition and face parameterization.
+- **Pickle**: A Python library for encoding file names across multiple script instances.
+
+### Facial Recognition Process
+
+OpenCV uses a system of face encoding to parameterize faces for comparison, taking measurements like the distance between eyes, skin/eye/hair color, and nose size. The project uses pre-encoded versions of faces and compares them against newly captured images to identify individuals.
+
+## Process
+
+- Capture images using a Raspberry Pi and control it via a TCP client.
+- Transfer images to a Linux device for facial recognition using SCP.
+- Identify faces using a pre-trained model with OpenCV, drawing bounding boxes around detected faces.
